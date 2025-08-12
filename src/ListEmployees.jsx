@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "./ListEmployees.css";
 
+const BASE_URL = process.env.REACT_APP_API_URL;
 function ListEmployees() {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://localhost:7081/api/Employees") // change port if needed
+    //fetch("https://localhost:7081/api/Employees")
+      fetch(`${BASE_URL}/api/Employees`)// change port if needed
       .then((res) => res.json())
       .then((data) => {
         setEmployees(data);
