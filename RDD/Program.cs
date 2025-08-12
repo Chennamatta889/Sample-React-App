@@ -23,11 +23,11 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate();
-}
+//using (var scope = app.Services.CreateScope())
+//{
+ //   var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+   // dbContext.Database.Migrate();
+//}
 // Enable Swagger in development (or always if you prefer)
 if (app.Environment.IsDevelopment())
 {
