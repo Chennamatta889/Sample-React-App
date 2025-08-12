@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import "./ListEmployees.css";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
+
 function ListEmployees() {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    //fetch("https://localhost:7081/api/Employees")
-      fetch(`${BASE_URL}/api/Employees`)// change port if needed
+  const fetchEmployees = () => {
+    setLoading(true);
+    fetch(`${BASE_URL}/api/Employees`)
       .then((res) => res.json())
       .then((data) => {
         setEmployees(data);
@@ -16,9 +18,34 @@ function ListEmployees() {
       })
       .catch((err) => {
         console.error("Error fetching employees:", err);
+        setError("Failed to fetch employees.");
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchEmployees();
   }, []);
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this employee?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/Employees/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete employee");
+      }
+      // Refresh employee list after deletion
+      fetchEmployees();
+    } catch (error) {
+      console.error("Delete failed:", error);
+      setError("Failed to delete employee.");
+    }
+  };
 
   if (loading) {
     return <p>Loading employees...</p>;
@@ -27,6 +54,7 @@ function ListEmployees() {
   return (
     <div className="employee-list">
       <h2>Employee List</h2>
+      {error && <p className="error">{error}</p>}
       <table>
         <thead>
           <tr>
@@ -35,6 +63,7 @@ function ListEmployees() {
             <th>Email</th>
             <th>Department</th>
             <th>Created At</th>
+            <th>Actions</th> {/* Added Actions column */}
           </tr>
         </thead>
         <tbody>
@@ -45,6 +74,11 @@ function ListEmployees() {
               <td>{emp.email}</td>
               <td>{emp.department}</td>
               <td>{new Date(emp.createdAt).toLocaleString()}</td>
+              <td>
+                <button onClick={() => handleDelete(emp.id)} className="delete-button">
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
