@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./login.css"; // Import CSS file
-
+const BASE_URL = process.env.REACT_APP_API_URL;
 function EmployeeForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ function EmployeeForm() {
     };
 
     try {
-      const response = await fetch("https://localhost:7081/api/employees", {
+      const response = await fetch(`${BASE_URL}/api/employees`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
