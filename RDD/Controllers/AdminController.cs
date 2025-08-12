@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
@@ -46,6 +46,28 @@ namespace YourApp.Controllers
             return Ok(employees);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteEmployee(int id)
+        {
+            var employee = await _context.Employees.FindAsync(id);
+
+            if (employee == null)
+            {
+                return NotFound(new { message = "Employee not found" });
+            }
+            _context.Employees.Remove(employee);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log the error (not shown)
+                return StatusCode(500, new { message = "Failed to delete employee" });
+            }
+
+            return NoContent(); // 204 No Content on success
+        }
 
         private string HashPassword(string password)
         {
