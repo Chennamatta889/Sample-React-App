@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rdd-deployment
+  labels:
+    app: rdd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rdd
+  template:
+    metadata:
+      labels:
+        app: rdd
+    spec:
+      containers:
+        - name: rdd
+          image: chenna12356/rdd:backend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ConnectionStrings__Default
+              value: "Server=mssql-service,1433;Database=RDD;User Id=sa;Password=Chinni123@;TrustServerCertificate=True;"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rdd-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: rdd
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
