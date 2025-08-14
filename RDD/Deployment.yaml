@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: rdd
-          image: image: <+artifact.image>
+          image: chenna12356/rdd:backend2
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
