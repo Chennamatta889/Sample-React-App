@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: chenna12356/rdd:frontend1
+          image: chenna12356/rdd:frontend3
           ports:
             - containerPort: 80
           resources:
