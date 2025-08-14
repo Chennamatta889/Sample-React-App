@@ -22,7 +22,7 @@ spec:
             - containerPort: 8080
           env:
             - name: ConnectionStrings__Default
-              value: "Server=mssql-service,1433;Database=RDD;User Id=sa;Password=Chinni123@;TrustServerCertificate=True;"
+              value: "Server=mssql-service,1433;Database=RDDb;User Id=sa;Password=Chinni123@;TrustServerCertificate=True;"
           resources:
             requests:
               cpu: "250m"
