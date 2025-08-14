@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+1apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: react-app
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          image: chenna12356/rdd:frontend
+          image: chenna12356/rdd:frontend1
           ports:
             - containerPort: 80
           resources:
